@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Graveyard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/api.js"></script>
+    <script defer src="js/auth.js"></script>
+</head>
+<body class="bg-dark full-screen center-content">
+<div class="card">
+    <h1>Login</h1>
+    <form id="login-form" class="form">
+        <label>
+            User
+            <input type="text" name="username" required>
+        </label>
+        <label>
+            Password
+            <input type="password" name="password" required>
+        </label>
+        <button type="submit" class="btn">Log in to your graveyard</button>
+        <p class="small-text">
+            Don't have an account?
+            <a href="register.html">Register</a>
+        </p>
+        <p id="login-error" class="error-message"></p>
+    </form>
+</div>
+</body>
+</html>

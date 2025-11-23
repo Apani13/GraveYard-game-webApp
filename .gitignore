@@ -1,0 +1,63 @@
+HELP.md
+
+# --- Maven build ---
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Dejar el wrapper en el repo, pero ignorar solo el jar binario
+.mvn/wrapper/maven-wrapper.jar
+
+# --- Config sensible / entornos ---
+.env
+*.key
+*.pem
+application-*-secret.properties
+application-*-prod.properties
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Bases de datos locales (H2) ---
+# Si usas H2 en modo file, se generan archivos .mv.db o .h2.db
+*.mv.db
+*.h2.db
+/data/
+
+# Si algún día quieres versionar una BD concreta,
+# puedes quitarla de aquí o añadir una excepción:
+# !src/main/resources/data-inicial.mv.db
+
+# --- Archivos del sistema operativo ---
+.DS_Store
+Thumbs.db
+
+# --- STS / Eclipse ---
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# --- IntelliJ IDEA ---
+.idea
+*.iws
+*.iml
+*.ipr
+
+# --- NetBeans ---
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# --- VS Code ---
+.vscode/
+

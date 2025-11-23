@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Graveyard Garden</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script defer src="js/api.js"></script>
+    <script defer src="js/game.js"></script>
+</head>
+<body class="bg-dark">
+
+<header class="top-bar">
+    <div class="top-bar-left">
+        <h1 class="app-title">Graveyard Garden</h1>
+    </div>
+    <div class="top-bar-right">
+        <span id="username-label" class="user-label"></span>
+        <button id="logout-btn" class="btn btn-small">Logout</button>
+    </div>
+</header>
+
+<main class="game-layout">
+
+    <!-- Cementerio -->
+    <section class="graveyard">
+        <div class="graveyard-grid" id="graveyard-container">
+            <!-- Los 9 slots se generan vía JS -->
+        </div>
+    </section>
+
+    <!-- Toolbar -->
+    <section class="toolbar">
+        <button class="tool-btn" data-tool="book" id="tool-book" title="Start ritual">
+            📖<span class="tool-label">Summon</span>
+        </button>
+        <button class="tool-btn" data-tool="candle" id="tool-soul" title="Soul Scent">
+            ✨<span class="tool-label">Soul +</span>
+        </button>
+        <button class="tool-btn" data-tool="dust" id="tool-dust" title="Arcane dust">
+            🪄<span class="tool-label">Arcane +</span>
+        </button>
+        <button class="tool-btn" data-tool="skull" id="tool-shovel" title="Cancel ritual">
+            ⛏️<span class="tool-label">Bury</span>
+        </button>
+    </section>
+
+</main>
+
+<!-- Modal: Create Summon -->
+<div id="create-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>New ritual</h2>
+
+        <form id="create-form" class="form">
+            <label>
+                Name (optional)
+                <input type="text" name="name">
+            </label>
+
+            <label>
+                Epitaph (optional)
+                <input type="text" name="epitaph" placeholder="A quiet whisper in the dark...">
+            </label>
+
+            <!-- Hidden grave index -->
+            <input type="hidden" name="graveIndex" id="create-grave-index">
+
+            <p id="create-error" class="error-message"></p>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn">Summon</button>
+                <button type="button" class="btn btn-secondary" id="cancel-create">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal: Info -->
+<div id="info-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Summoning details</h2>
+
+        <div id="info-body"></div>
+
+        <div class="modal-actions">
+            <button type="button" class="btn" id="info-close-btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Delete Confirm -->
+<div id="delete-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Delete ritual?</h2>
+        <p>Are you sure you want to bury this creature forever?</p>
+
+        <div class="modal-actions">
+            <button type="button" class="btn btn-danger" id="delete-confirm-btn">Delete</button>
+            <button type="button" class="btn btn-secondary" id="delete-cancel-btn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Background overlay -->
+<div id="modal-backdrop" class="modal-backdrop hidden"></div>
+
+</body>
+</html>
