@@ -37,9 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Username fijo por ahora
   const usernameLabel = document.getElementById("username-label");
-  if (usernameLabel) {
-    usernameLabel.textContent = "Necromancer";
-  }
+  loadCurrentUser(usernameLabel);
 
   initToolbar();
   initModals();
@@ -47,6 +45,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadSummons();
 });
+
+async function loadCurrentUser(usernameLabel) {
+  try {
+    const res = await fetchWithAuth("/users/me");
+    const data = await res.json();
+    if (usernameLabel) {
+      usernameLabel.textContent = data.username;
+    }
+    const nameEl = document.getElementById("user-name");
+    const roleEl = document.getElementById("user-role");
+    if (nameEl) nameEl.textContent = data.username;
+    if (roleEl) roleEl.textContent = data.role;
+
+    const adminLink = document.getElementById("admin-link");
+    if (adminLink && data.role === "ADMIN") {
+      adminLink.style.display = "inline-flex";
+    }
+  } catch (err) {
+    console.error("Cannot load user", err);
+  }
+}
 
 // -------------------------------------------
 // Toolbar
@@ -119,12 +138,6 @@ function initGraveyardGrid() {
     const slot = document.createElement("div");
     slot.className = "grave-slot";
     slot.dataset.index = i;
-
-    const emoji = document.createElement("div");
-    emoji.className = "grave-emoji";
-    emoji.textContent = "🪦";
-
-    slot.appendChild(emoji);
     slot.addEventListener("click", () => onGraveClick(i));
 
     container.appendChild(slot);
@@ -272,15 +285,14 @@ function renderGraveyard() {
   const slots = container.querySelectorAll(".grave-slot");
 
   slots.forEach((slot, index) => {
-    const emojiEl = slot.querySelector(".grave-emoji");
-
     slot.classList.remove(
       "creature-ghost",
       "creature-zombie",
-      "creature-skeleton"
+      "creature-skeleton",
+      "stage-1",
+      "stage-2"
     );
-
-    emojiEl.textContent = "🪦";
+    slot.style.backgroundImage = "url('assets/graves/grave.png')";
 
     const summon = summons.find((s) => s.graveIndex === index);
     if (!summon) return;
@@ -289,17 +301,18 @@ function renderGraveyard() {
     const stage = getStage(soulEnergy, arcaneStability);
 
     if (stage === 0) {
-      emojiEl.textContent = "✨";
+      slot.style.backgroundImage = "url('assets/graves/grave-stage-1.png')";
     } else if (stage === 1) {
-      emojiEl.textContent = "💀";
+      slot.classList.add("stage-2");
+      slot.style.backgroundImage = "url('assets/graves/grave-stage-2.png')";
     } else {
+      let creatureAsset = "zombie-summon.png";
       if (creatureType === "ghost") {
-        slot.classList.add("creature-ghost");
+        creatureAsset = "ghost-summon.png";
       } else if (creatureType === "skeleton") {
-        slot.classList.add("creature-skeleton");
-      } else {
-        slot.classList.add("creature-zombie");
+        creatureAsset = "skeleton-summon.png";
       }
+      slot.style.backgroundImage = `url('assets/graves/grave-stage-2.png'), url('assets/graves/${creatureAsset}')`;
     }
   });
 }
