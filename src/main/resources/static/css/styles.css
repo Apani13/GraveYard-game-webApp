@@ -144,6 +144,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  background: radial-gradient(circle at top, #2e2f45 0, #14141e 50%, #05050a 100%);
 }
 
 /* Aquí pots posar una imatge de fons real del cementiri */
@@ -159,7 +160,9 @@ body {
   width: 90px;
   height: 90px;
   border-radius: 12px;
-  background: rgba(20, 20, 30, 0.9);
+  background: url('../assets/graves/grave.png') center/contain no-repeat;
+  background-repeat: no-repeat;
+  background-size: contain;
   border: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: center;
@@ -167,6 +170,14 @@ body {
   cursor: pointer;
   position: relative;
   transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+}
+
+.grave-slot.stage-1 {
+  background-image: url('../assets/graves/grave-stage-1.png');
+}
+
+.grave-slot.stage-2 {
+  background-image: url('../assets/graves/grave-stage-2.png');
 }
 
 .grave-slot:hover {
@@ -219,6 +230,19 @@ body {
   box-shadow: 0 0 12px rgba(124, 77, 255, 0.6);
 }
 
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.users-table th,
+.users-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
 /* Modals */
 .modal {
   position: fixed;
@@ -258,6 +282,23 @@ body {
 
 .modal-backdrop.hidden {
   display: none;
+}
+
+.user-panel {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  background: rgba(5, 5, 15, 0.9);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.user-card {
+  background: rgba(20, 20, 30, 0.8);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.4);
 }
 
 /* ──────────────────────────────────────────────
