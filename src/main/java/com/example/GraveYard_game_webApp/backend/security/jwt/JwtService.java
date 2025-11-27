@@ -5,13 +5,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -20,11 +19,21 @@ public class JwtService {
     private static final String SECRET_KEY = "NVHhl555U6Vsn0p8K66HXbzJUe7PIiRnsBRtEwdtwbEddT898FaQNLyilMIzdwMV";
 
     public String getToken(UserDetails user) {
-        return getToken(new HashMap<>(), user);
+
+        Map<String, Object> claims = new HashMap<>();
+        List<String> roles = new ArrayList<>();
+
+        for (GrantedAuthority auth : user.getAuthorities()) {
+            roles.add(auth.getAuthority()); // Ej: "ROLE_ADMIN"
+        }
+
+        claims.put("roles", roles);
+
+        return buildToken(claims, user);
     }
 
 
-    private String getToken(Map<String, Object> extraClaims, UserDetails user) {
+    private String buildToken(Map<String, Object> extraClaims, UserDetails user) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

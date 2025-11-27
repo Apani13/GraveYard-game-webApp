@@ -24,9 +24,6 @@ public class SummonService   {
     private final SummonRepository summonRepository;
     private final UserRepository userRepository;
 
-    // ------------------------------------------------------------
-    // Helpers de seguretat
-    // ------------------------------------------------------------
 
     private String getCurrentUsername() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -53,14 +50,11 @@ public class SummonService   {
         }
 
         String username = getCurrentUsername();
-        return summonRepository.findByIdAndOwnerUsername(id, username)
+        return summonRepository.findByIdAndOwner_Username(id, username)
                 .orElseThrow(() -> new RuntimeException(
                         "Summon with id " + id + " not found for current user"));
     }
 
-    // ------------------------------------------------------------
-    // CREATE — Iniciar un ritual de resurrecció
-    // ------------------------------------------------------------
 
     @Transactional
     public SummonResponse createSummon(SummonCreateRequest request) {
@@ -78,9 +72,6 @@ public class SummonService   {
         return toResponse(saved);
     }
 
-    // ------------------------------------------------------------
-    // READ — Obtenir totes les invocacions del cementiri
-    // ------------------------------------------------------------
 
     @Transactional(readOnly = true)
     public List<SummonResponse> getAllSummons() {
@@ -89,7 +80,7 @@ public class SummonService   {
         }
 
         String username = getCurrentUsername();
-        return summonRepository.findByOwnerUsername(username)
+        return summonRepository.findByOwner_Username(username)
                 .stream()
                 .map(this::toResponse)
                 .toList();
@@ -101,9 +92,6 @@ public class SummonService   {
         return toResponse(summon);
     }
 
-    // ------------------------------------------------------------
-    // UPDATE — aplicar energies o modificar ritual
-    // ------------------------------------------------------------
 
     @Transactional
     public SummonResponse updateSummon(Long id, SummonUpdateRequest request) {

@@ -1,5 +1,7 @@
 package com.example.GraveYard_game_webApp.backend.user;
 
+import com.example.GraveYard_game_webApp.backend.summon.model.Summon;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,12 +27,20 @@ public class User implements UserDetails {
     Integer id;
     @Column(nullable = false)
     String username;
-    String lastname;
-    String firstname;
-    String country;
     String password;
     @Enumerated(EnumType.STRING)
     Role role;
+
+
+    private int ghostsCollected;
+    private int zombiesCollected;
+    private int skeletonsCollected;
+
+    // Relación con las summons del usuario
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Summon> summons;
+
 
 
     @Override

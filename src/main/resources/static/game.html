@@ -3,71 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <title>Graveyard Garden</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 
+    <link rel="stylesheet" href="css/styles.css">
     <script defer src="js/api.js"></script>
     <script defer src="js/game.js"></script>
 </head>
 <body class="bg-dark">
 
+
+
 <header class="top-bar">
+
+    <div class="particles-layer">
+        <!-- fila inferior / centro -->
+        <div class="particle" style="left: 8%;  top: 75%; animation-duration: 8s;  animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; top: 82%; animation-duration: 10s; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 35%; top: 78%; animation-duration: 9s;  animation-delay: 0.5s;"></div>
+        <div class="particle" style="left: 50%; top: 83%; animation-duration: 11s; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 65%; top: 76%; animation-duration: 8s;  animation-delay: 0.8s;"></div>
+        <div class="particle" style="left: 82%; top: 80%; animation-duration: 9.5s;animation-delay: 1.2s;"></div>
+
+        <!-- algo más arriba -->
+        <div class="particle" style="left: 15%; top: 60%; animation-duration: 7.5s; animation-delay: 0.3s;"></div>
+        <div class="particle" style="left: 30%; top: 55%; animation-duration: 9s;   animation-delay: 1.1s;"></div>
+        <div class="particle" style="left: 48%; top: 58%; animation-duration: 10.5s;animation-delay: 0.6s;"></div>
+        <div class="particle" style="left: 62%; top: 52%; animation-duration: 8.5s; animation-delay: 1.3s;"></div>
+        <div class="particle" style="left: 77%; top: 57%; animation-duration: 11s;  animation-delay: 0.9s;"></div>
+        <div class="particle" style="left: 92%; top: 62%; animation-duration: 7.8s; animation-delay: 0.4s;"></div>
+    </div>
+
+
+    <!-- LEFT -->
     <div class="top-bar-left">
-        <h1 class="app-title">Graveyard Garden</h1>
+
+
+
     </div>
+
+    <!-- CENTER (Sound Panel lives here) -->
+    <div class="top-bar-center">
+        <div class="sound-panel">
+            <div class="sound-row">
+                <span class="sound-label">Music</span>
+                <input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.35">
+                <button id="music-toggle" class="sound-btn">ON</button>
+            </div>
+
+            <div class="sound-row">
+                <span class="sound-label">SFX</span>
+                <input id="sfx-volume" type="range" min="0" max="1" step="0.01" value="0.45">
+                <button id="sfx-toggle" class="sound-btn">ON</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT -->
     <div class="top-bar-right">
-        <span id="username-label" class="user-label"></span>
-        <button id="logout-btn" class="btn btn-small">Logout</button>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+
     </div>
+
 </header>
 
-<main class="game-layout">
 
-    <!-- Cementerio -->
+
+
+
+<main class="game-layout">
+    <!-- Zona del cementiri -->
     <section class="graveyard">
-        <div class="graveyard-grid" id="graveyard-container">
-            <!-- Los 9 slots se generan vía JS -->
+
+        <div class="fog-layer"></div>
+
+        <div class="graveyard-grid" id="graveyard-grid">
+            <!-- Slots generats via JS -->
         </div>
     </section>
 
-    <!-- Toolbar -->
+    <!-- PANEL DE USUARIO -->
+    <aside class="user-panel">
+        <div class="user-panel-header">
+            <img id="user-avatar" src="assets/avatar/avatar.png" class="user-avatar" alt="Avatar">
+            <h3 id="user-panel-name">Necromancer</h3>
+        </div>
+
+        <div class="user-stats">
+            <h4>Harvested Creatures</h4>
+
+            <div class="stat-row">
+                <img src="assets/creatures/ghost.png" class="stat-icon">
+                <span>Ghosts:</span>
+                <span id="stat-ghosts">0</span>
+            </div>
+
+            <div class="stat-row">
+                <img src="assets/creatures/zombie.png" class="stat-icon">
+                <span>Zombies:</span>
+                <span id="stat-zombies">0</span>
+            </div>
+
+            <div class="stat-row">
+                <img src="assets/creatures/skeleton.png" class="stat-icon">
+                <span>Skeletons:</span>
+                <span id="stat-skeletons">0</span>
+            </div>
+        </div>
+    </aside>
+
+
+    <!-- Barra d'eines -->
     <section class="toolbar">
         <button class="tool-btn" data-tool="book" id="tool-book" title="Start ritual">
-            📖<span class="tool-label">Summon</span>
+            <img class="tool-icon" src="assets/icons/spellBook.png" alt="Summon">
+            <span class="tool-label">Summon</span>
         </button>
-        <button class="tool-btn" data-tool="candle" id="tool-soul" title="Soul Scent">
-            ✨<span class="tool-label">Soul +</span>
+        <button class="tool-btn" data-tool="soul" id="tool-soul" title="Soul Scent">
+            <img class="tool-icon" src="assets/icons/aura.png" alt="Soul">
+            <span class="tool-label">Soul</span>
         </button>
-        <button class="tool-btn" data-tool="dust" id="tool-dust" title="Arcane dust">
-            🪄<span class="tool-label">Arcane +</span>
+
+        <button class="tool-btn" data-tool="dust" id="tool-dust" title="Arcane Dust">
+            <img class="tool-icon" src="assets/icons/arcane-dust.png" alt="Arcane">
+            <span class="tool-label">Arcane</span>
         </button>
-        <button class="tool-btn" data-tool="skull" id="tool-shovel" title="Cancel ritual">
-            ⛏️<span class="tool-label">Bury</span>
+
+        <button class="tool-btn" data-tool="shovel" id="tool-shovel" title="Cancel ritual">
+            <img class="tool-icon" src="assets/icons/shovel.png" alt="Bury">
+            <span class="tool-label">Bury</span>
         </button>
+
+        <button class="tool-btn" data-tool="harvest" id="tool-harvest" title="Harvest creature">
+            <img class="tool-icon" src="assets/icons/seal.png" alt="Harvest">
+            <span class="tool-label">Harvest</span>
+        </button>
+
     </section>
+
+
+
 
 </main>
 
-<!-- Modal: Create Summon -->
-<div id="create-modal" class="modal hidden">
+<!-- Modal: Crear Summon -->
+<div id="modal-create" class="modal hidden">
     <div class="modal-content">
         <h2>New ritual</h2>
-
-        <form id="create-form" class="form">
+        <form id="create-summon-form" class="form">
             <label>
-                Name (optional)
+                Name (opcional)
                 <input type="text" name="name">
             </label>
-
             <label>
-                Epitaph (optional)
+                Epitaph (opcional)
                 <input type="text" name="epitaph" placeholder="A quiet whisper in the dark...">
             </label>
-
-            <!-- Hidden grave index -->
             <input type="hidden" name="graveIndex" id="create-grave-index">
-
             <p id="create-error" class="error-message"></p>
-
             <div class="modal-actions">
                 <button type="submit" class="btn">Summon</button>
                 <button type="button" class="btn btn-secondary" id="cancel-create">Cancel</button>
@@ -76,34 +168,80 @@
     </div>
 </div>
 
-<!-- Modal: Info -->
-<div id="info-modal" class="modal hidden">
+<!-- Modal: Info Summon -->
+<div id="modal-info" class="modal hidden">
     <div class="modal-content">
         <h2>Summoning details</h2>
-
-        <div id="info-body"></div>
-
+        <div id="info-content">
+            <!-- Contingut omplert per JS -->
+        </div>
         <div class="modal-actions">
-            <button type="button" class="btn" id="info-close-btn">Close</button>
+            <button type="button" class="btn" id="close-info">Close</button>
         </div>
     </div>
 </div>
 
-<!-- Modal: Delete Confirm -->
-<div id="delete-modal" class="modal hidden">
-    <div class="modal-content">
-        <h2>Delete ritual?</h2>
-        <p>Are you sure you want to bury this creature forever?</p>
-
-        <div class="modal-actions">
-            <button type="button" class="btn btn-danger" id="delete-confirm-btn">Delete</button>
-            <button type="button" class="btn btn-secondary" id="delete-cancel-btn">Cancel</button>
-        </div>
-    </div>
-</div>
-
-<!-- Background overlay -->
+<!-- Background overlay per als modals -->
 <div id="modal-backdrop" class="modal-backdrop hidden"></div>
+
+
+<!-- 🔊 AMBIENCE & SFX -->
+
+
+<!-- Música base -->
+<audio id="bg-music" src="assets/audio/main-theme.mp3" loop></audio>
+
+<!-- Ambient SFX -->
+<audio id="birds-1" src="assets/audio/owl-hoots.mp3" loop></audio>
+<audio id="birds-2" src="assets/audio/night-ambiance.mp3" loop></audio>
+<audio id="wind-soft" src="assets/audio/wind-gust.mp3" loop></audio>
+<audio id="whispers" src="assets/audio/birds-flying.mp3" loop></audio>
+
+
+
+<audio id="sfx-spellbook" src="assets/audio/spellbook-sound.wav"></audio>
+<audio id="sfx-soul" src="assets/audio/soul-sound.wav"></audio>
+<audio id="sfx-dust" src="assets/audio/arcane-dust-sound.wav"></audio>
+<audio id="sfx-shovel" src="assets/audio/shovel-sound.wav"></audio>
+<audio id="sfx-harvest" src="assets/audio/harvest-sound.wav"></audio>
+
+
+<!-- Final form SFX per criatura -->
+<audio id="sfx-final-ghost"    src="assets/audio/ghost-sound.mp3"></audio>
+<audio id="sfx-final-zombie"   src="assets/audio/zombie-sound.mp3"></audio>
+<audio id="sfx-final-skeleton" src="assets/audio/skeleton-sound.mp3"></audio>
+
+<!-- Delete ritual SFX -->
+<audio id="sfx-delete" src="assets/audio/delete-ritual.mp3"></audio>
+
+
+<!-- Modal: Confirm -->
+<div id="modal-confirm" class="modal hidden">
+    <div class="modal-content modal-confirm-content">
+        <h2 id="confirm-title">Confirm</h2>
+        <p id="confirm-message">Are you sure?</p>
+
+        <div class="modal-actions confirm-actions">
+            <button id="confirm-yes" class="btn">Yes</button>
+            <button id="confirm-no" class="btn btn-secondary">No</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Warning -->
+<div id="modal-warning" class="modal hidden">
+    <div class="modal-content modal-warning-content">
+        <h2>Warning</h2>
+        <p id="warning-message">Something is not ready...</p>
+
+        <div class="modal-actions">
+            <button id="warning-ok" class="btn">OK</button>
+        </div>
+    </div>
+</div>
+
+
+
 
 </body>
 </html>
