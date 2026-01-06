@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Graveyard Garden</title>
+
+    <!-- Pixel retro font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/api.js"></script>
+    <script defer src="js/admin.js"></script>
+</head>
+
+<body class="bg-dark">
+
+<header class="top-bar admin-top-bar">
+    <div class="top-bar-left admin-title-wrapper">
+        <span class="admin-chip">★</span>
+        <h1 class="app-title admin-title">Admin Dashboard</h1>
+    </div>
+
+    <div class="top-bar-right">
+        <button id="back-btn" class="btn-admin-back">
+            <span class="back-arrow">↩</span>
+            <span class="back-text">Back to garden</span>
+        </button>
+    </div>
+</header>
+
+
+<main class="admin-layout">
+
+    <section class="admin-card">
+        <h2 class="admin-title">Users Overview</h2>
+
+        <div id="admin-users-container" class="admin-users"></div>
+
+        <p id="admin-error" class="error-message"></p>
+    </section>
+
+</main>
+
+<audio id="birds-1" class="admin-audio" src="assets/audio/owl-hoots.mp3" loop></audio>
+<audio id="birds-2" class="admin-audio" src="assets/audio/night-ambiance.mp3" loop></audio>
+<audio id="wind-soft" class="admin-audio" src="assets/audio/wind-gust.mp3" loop></audio>
+<audio id="whispers" class="admin-audio" src="assets/audio/birds-flying.mp3" loop></audio>
+
+
+</body>
+</html>
