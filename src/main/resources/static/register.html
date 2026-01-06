@@ -2,30 +2,53 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Register - Cozy Graveyard</title>
+    <title>Register - Graveyard Garden</title>
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <link rel="stylesheet" href="css/styles.css">
+
     <script defer src="js/api.js"></script>
     <script defer src="js/auth.js"></script>
 </head>
-<body class="bg-dark full-screen center-content">
-<div class="card">
-    <h1>Register</h1>
-    <form id="register-form" class="form">
-        <label>
-            Usuari
-            <input type="text" name="username" required>
-        </label>
-        <label>
-            Contrasenya
-            <input type="password" name="password" required>
-        </label>
-        <button type="submit" class="btn">Crear compte</button>
-        <p class="small-text">
+
+<body class="auth-screen">
+
+<div class="auth-card">
+
+    <img src="assets/ui/graveyard-title.png" class="auth-title-img" alt="Graveyard Garden">
+
+    <p class="auth-sub">Create your necromancer</p>
+
+    <form id="register-form" class="auth-form">
+
+        <label for="register-username">Usuari</label>
+        <input id="register-username" type="text" name="username" placeholder="Nom d'usuari" required>
+
+        <label for="register-password">Contrasenya</label>
+        <input id="register-password" type="password" name="password" placeholder="••••••" required>
+
+        <button type="submit" class="auth-btn">AWAKEN</button>
+
+        <p class="auth-switch">
             Ja tens compte?
             <a href="login.html">Inicia sessió</a>
         </p>
-        <p id="register-error" class="error-message"></p>
+
+        <p id="register-error" class="pixel-error hidden"></p>
+
+
     </form>
+
 </div>
+
+<audio id="birds-1" class="auth-audio" src="assets/audio/owl-hoots.mp3" loop></audio>
+<audio id="birds-2" class="auth-audio" src="assets/audio/night-ambiance.mp3" loop></audio>
+<audio id="wind-soft" class="auth-audio" src="assets/audio/wind-gust.mp3" loop></audio>
+<audio id="whispers" class="auth-audio" src="assets/audio/birds-flying.mp3" loop></audio>
+
+<audio id="sfx-auth-click" class="auth-audio" src="assets/audio/witch-laugh.mp3"></audio>
+
+
 </body>
 </html>

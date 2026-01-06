@@ -15,7 +15,21 @@ function setToken(token) {
 /** Elimina token (logout) */
 function clearToken() {
   localStorage.removeItem("jwtToken");
+  localStorage.removeItem("username");
 }
+
+
+
+function setUsername(username) {
+  localStorage.setItem("username", username);
+}
+
+function getUsername() {
+  return localStorage.getItem("username");
+}
+
+
+
 
 /** Helper per fer fetch amb Auth */
 async function fetchWithAuth(path, options = {}) {
@@ -100,4 +114,53 @@ async function apiDeleteSummon(id) {
   await fetchWithAuth(`/summons/${id}`, {
     method: "DELETE"
   });
+}
+
+
+function setUserRole(role) {
+  localStorage.setItem("role", role);
+}
+
+function getUserRole() {
+  return localStorage.getItem("role");
+}
+
+
+/** GET /admin/users */
+async function apiGetUsers() {
+  const res = await fetchWithAuth("/admin/users", {
+    method: "GET"
+  });
+  return res.json();
+}
+
+
+/** GET /users/me/stats */
+async function apiGetMyStats() {
+  const res = await fetchWithAuth("/users/me/stats", {
+    method: "GET",
+  });
+
+  if (!res.ok) {
+    throw new Error("No s'han pogut carregar les estadístiques");
+  }
+
+  return res.json();
+}
+
+/** POST /users/me/stats */
+async function apiIncrementMyStats(delta) {
+  const res = await fetchWithAuth("/users/me/stats", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(delta),
+  });
+
+  if (!res.ok) {
+    throw new Error("No s'han pogut actualitzar les estadístiques");
+  }
+
+  return res.json();
 }

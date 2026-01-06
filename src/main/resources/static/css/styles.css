@@ -53,7 +53,7 @@ body {
   border: none;
   padding: 0.6rem 1.2rem;
   border-radius: 999px;
-  cursor: pointer;
+  cursor: inherit;
   text-decoration: none;
   font-weight: 600;
   display: inline-flex;
@@ -104,122 +104,163 @@ body {
   margin-top: 0.75rem;
 }
 
-.error-message {
-  color: #ff6b6b;
-  font-size: 0.8rem;
-  min-height: 1rem;
-}
 
 /* Top bar */
 .top-bar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1rem;
-  background: rgba(5, 5, 15, 0.9);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  justify-content: space-between;
+  padding: 10px 20px;
+  height: 80px;       /* ← restaurado */
+  position: relative;
 }
+
 
 .app-title {
   font-size: 1.1rem;
   margin: 0;
 }
 
-.user-label {
-  margin-right: 0.5rem;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
+
 
 /* Layout del joc */
 .game-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 48px);
+  position: relative;
+  padding-right: 260px; /* el mismo ancho que el panel */
 }
+
+
 
 .graveyard {
-  flex: 1;
+  position: relative;   /* perquè la boira es col·loqui dins */
+  flex: 0 0 auto;
+  width: 100%;
+  height: 70vh;         /* cementiri ocupa 70% pantalla */
+  overflow: hidden;     /* talla boira que surt per fora */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
 }
 
-/* Aquí pots posar una imatge de fons real del cementiri */
+
+
+
 .graveyard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 90px);
-  grid-template-rows: repeat(3, 90px);
-  gap: 1.5rem;
+  background-image: url("../assets/backgrounds/graveyard-background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 100%;
 }
 
-/* Cada tomba (slot) */
+
+
+
+
 .grave-slot {
+  position: absolute;
   width: 90px;
   height: 90px;
-  border-radius: 12px;
-  background: rgba(20, 20, 30, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  cursor: inherit;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+
+  z-index: 5;            /* <--- AFEGIT */
+  pointer-events: all;    /* <--- PER ASSEGURAR-LO */
 }
 
+
 .grave-slot:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-  border-color: #7c4dff;
+  filter: brightness(1.08);
+  transform: translate(-50%, -50%) scale(1.03);
 }
+
 
 .grave-slot .emoji {
   font-size: 2rem;
 }
 
 .grave-label {
-  position: absolute;
-  bottom: 4px;
-  right: 6px;
-  font-size: 0.7rem;
-  opacity: 0.7;
+  display: none;
 }
 
+
+
 /* Barra d'eines */
+
 .toolbar {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 1.2rem;
   padding: 0.75rem;
-  background: rgba(5, 5, 15, 0.95);
+  background: rgba(10, 10, 20, 0.95);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Botons de la toolbar */
 .tool-btn {
-  background: rgba(30, 30, 45, 0.9);
-  border-radius: 999px;
-  padding: 0.4rem 0.8rem;
-  border: 1px solid transparent;
-  cursor: pointer;
-  display: inline-flex;
+  background: rgba(50, 50, 75, 0.9);
+  border: 2px solid rgba(150, 120, 255, 0.2);
+  padding: 0.8rem 0.9rem;       /* MOLT més gran */
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 1.1rem;
+  gap: 0.4rem;
+
+  cursor: inherit;
+  transition: transform 0.15s ease, filter 0.15s ease;
 }
+
+
+/* Icones pixel */
+.tool-btn .tool-icon {
+  width: 56px;
+  height: 56px;
+  image-rendering: pixelated;
+}
+
+/* Etiqueta cuqui */
+.tool-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.55rem;
+  color: #fdfdff;          /* CLAR! */
+  text-shadow: 0 0 4px #000;  /* outline per llegir sobre qualsevol fons */
+  opacity: 1;
+}
+
+/* Hover */
+.tool-btn:hover {
+  filter: brightness(1.2);
+  transform: translateY(-3px) scale(1.05);
+}
+
+
+/* Estat actiu (seleccionat) */
+.tool-btn.active {
+  border-color: #c084ff;
+  background: rgba(90, 70, 160, 0.5);
+  box-shadow: 0 0 12px rgba(124, 77, 255, 0.7);
+  transform: scale(1.05);
+}
+
 
 .tool-label {
-  font-size: 0.8rem;
+  font-family: "Press Start 2P", monospace;
 }
 
-.tool-btn.active {
-  border-color: #7c4dff;
-  box-shadow: 0 0 12px rgba(124, 77, 255, 0.6);
-}
 
-/* Modals */
+/* ───────────────────────────────────
+   MODALS — Retro arcane summon style
+─────────────────────────────────── */
 .modal {
   position: fixed;
   inset: 0;
@@ -227,38 +268,185 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 20;
+  pointer-events: auto;
 }
 
 .modal.hidden {
   display: none;
 }
 
+/* Caixa principal del ritual / info */
 .modal-content {
-  background: rgba(15, 15, 25, 0.95);
-  padding: 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(0,0,0,0.7);
-  max-width: 400px;
-  width: 90%;
+  position: relative;
+  z-index: 50;
+  max-width: 520px;          /* → antes 420px */
+  width: 95%;                /* → más ancho */
+  padding: 2.2rem 2.4rem;    /* → mucho más aire */
+
+  background: radial-gradient(circle at top,
+              #281f42 0%,
+              #1a152d 55%,
+              #0b0a15 100%);
+
+  border-radius: 20px;
+  border: 2px solid rgba(200, 160, 255, 0.55);
+
+  box-shadow:
+    0 0 30px rgba(0, 0, 0, 0.9),
+    0 0 18px rgba(150, 110, 255, 0.4);
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.7rem;         /* ligeramente más grande */
+  color: #f7f2ff;
+  text-shadow: 0 0 4px #000;
+  line-height: 1.75;         /* → MUCHÍSIMO más legible */
 }
 
+
+/* Petita “marcació” pixel al voltant */
+.modal-content::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(120, 90, 210, 0.5);
+  border-radius: 12px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Títol del ritual / info */
+.modal-content h2 {
+  margin: 0 0 1.4rem 0;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #fdfbff;
+  text-align: center;
+  text-shadow: 0 0 5px #b389ff;
+}
+
+
+/* Contingut de text dins la finestra d'info */
+#info-content p {
+  margin: 0.6rem 0;          /* separación vertical */
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.65rem;
+  color: #e8dbff;
+}
+
+#info-content p strong {
+  color: #f4d0ff;
+}
+
+
+
+/* Divider arcano */
+.info-divider {
+  width: 100%;
+  height: 1px;
+  margin: 1rem 0 1.2rem 0;
+  background: linear-gradient(
+      to right,
+      rgba(140, 90, 255, 0) 0%,
+      rgba(180, 140, 255, 0.8) 50%,
+      rgba(140, 90, 255, 0) 100%
+  );
+}
+
+
+
+
+/* Frase final d'estat del ritual */
+#info-content p em {
+  color: #ffd6ff;
+  font-style: italic;
+}
+
+/* Botons de la part baixa del modal */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
-  margin-top: 1rem;
+  margin-top: 1.2rem;
 }
 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: radial-gradient(circle at top,
+               rgba(40, 20, 70, 0.9) 0%,
+               rgba(0, 0, 0, 0.95) 55%);
   z-index: 10;
+  backdrop-filter: blur(2px);
 }
+
 
 .modal-backdrop.hidden {
   display: none;
 }
+
+/* Formulari del modal de creació — estil arcà */
+.modal-content .form label {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.04em;
+  color: #d9c0ff;
+  text-shadow: 0 0 3px #000;
+}
+
+.modal-content .form input[type="text"] {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  margin-top: 0.3rem;
+
+  background: rgba(34, 28, 48, 0.9);
+  border: 2px solid rgba(170, 140, 255, 0.4);
+  border-radius: 10px;
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  color: #f4eaff;
+
+  image-rendering: pixelated;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
+}
+
+.modal-content .form input:focus {
+  outline: none;
+  border-color: #d9c0ff;
+  box-shadow: 0 0 10px rgba(200,160,255,0.5);
+}
+
+
+
+/* Botons dins del modal — arcane retro */
+.modal-content .btn {
+  background: #8a57ff;
+  border: 2px solid rgba(255,255,255,0.1);
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.65rem;
+  color: #fff;
+
+  cursor: inherit;
+  text-shadow: 0 0 3px #000;
+
+  transition: 0.15s ease;
+}
+
+.modal-content .btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+.modal-content .btn-secondary {
+  background: #3a304f;
+  border-color: rgba(200,160,255,0.2);
+}
+
+
 
 /* ──────────────────────────────────────────────
    Estat 3 — la criatura ja comença a sortir
@@ -276,3 +464,1029 @@ body {
 .grave-slot.creature-skeleton {
   background-image: url('../assets/graves/skeleton-summon.png');
 }
+
+
+/* ───────────────────────────────
+   PANEL DE USUARIO LATERAL
+───────────────────────────────*/
+.game-layout {
+  position: relative; /* para que el panel se “ancle” al main */
+}
+
+.user-panel {
+  position: absolute;
+  right: 0;
+  top: 0;         /* start at the top of .game-layout */
+  width: 260px;
+  height: 100%;   /* SAME height as .game-layout */
+
+  background: radial-gradient(circle at top, #191525 0, #0a0a16 55%, #050510 100%);
+  border-left: 1px solid rgba(210, 180, 255, 0.25);
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.6);
+
+  padding: 1.1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  overflow-y: auto; /* por si un día hay muchas cosas */
+}
+
+
+
+/* cabecera usuario */
+.user-panel-header {
+  text-align: center;
+}
+
+.user-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 10px;
+  image-rendering: pixelated;
+  border: 2px solid rgba(192, 132, 255, 0.8);
+  box-shadow: 0 0 10px rgba(124, 77, 255, 0.7);
+  margin-bottom: 0.6rem;
+}
+
+/* nombre grande y retro */
+#user-panel-name {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  margin: 0;
+  color: #fdfbff;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+}
+
+/* bloque stats */
+.user-stats h4 {
+  margin: 0 0 0.5rem 0;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #c7b5ff;
+  opacity: 0.9;
+}
+
+/* fila de stat */
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+
+  background: rgba(35, 32, 60, 0.95);
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+  margin-bottom: 0.4rem;
+
+  border: 1px solid rgba(140, 120, 255, 0.4);
+}
+
+/* icono criatura más grande */
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  margin-right: 0.5rem;
+}
+
+/* texto de la stat */
+.stat-row span {
+  font-size: 0.8rem;
+}
+
+/* etiqueta “Ghosts / Zombies...” */
+.stat-row span:nth-of-type(1) {
+  flex: 1;
+  margin-left: 0.1rem;
+  opacity: 0.9;
+}
+
+/* número a la derecha, destacado */
+.stat-row span:nth-of-type(2) {
+  min-width: 2rem;
+  text-align: right;
+  font-weight: 700;
+  color: #fdfbff;
+}
+
+
+
+
+/* ───────────────────────────────────────────────
+   LOGIN & REGISTER — Cozy Retro Pixel Aesthetic
+──────────────────────────────────────────────── */
+
+.auth-screen {
+  min-height: 100vh;
+  height: 100vh;          /* 👈 fuerza a ocupar exactamente la ventana */
+  box-sizing: border-box; /* 👈 padding cuenta dentro del 100vh */
+  overflow: hidden;       /* 👈 sin scroll */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: radial-gradient(circle at top, #2f2d47 0%, #171622 55%, #090912 100%);
+  padding: 1rem;
+  font-family: "Press Start 2P", monospace;
+}
+
+
+.auth-card {
+  background: rgba(18, 18, 28, 0.92);
+  border-radius: 16px;
+  padding: 2.4rem 2.6rem;
+
+  width: 380px;
+  max-width: 90vw;
+
+  border: 2px solid rgba(200, 160, 255, 0.35);
+  box-shadow: 0 0 20px rgba(0,0,0,0.7),
+              0 0 12px rgba(140,100,255,0.25) inset;
+
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+/* Better pixel title */
+.auth-title {
+  font-size: 1.3rem;
+  margin: 0;
+  color: #f8f4ff;
+  text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 0 6px #b07cff;
+  line-height: 1.4;
+}
+
+/* Subtitle */
+.auth-sub {
+  font-size: 0.75rem;
+  opacity: 0.75;
+  margin-top: -0.8rem;
+  font-family: "Press Start 2P", monospace;
+}
+
+/* Form layout */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* Label */
+.auth-form label {
+  text-align: left;
+  font-size: 0.65rem;
+  opacity: 0.85;
+  letter-spacing: 1px;
+}
+
+/* Inputs */
+.auth-form input {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.70rem;
+
+  background: rgba(34, 34, 54, 0.9);
+  border: 2px solid rgba(155, 120, 255, 0.4);
+  border-radius: 10px;
+  padding: 0.8rem 0.8rem;
+
+  color: #f3edff;
+  image-rendering: pixelated;
+  box-shadow: 0 0 8px rgba(0,0,0,0.5) inset;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #d3b2ff;
+  box-shadow: 0 0 10px rgba(210,180,255,0.6);
+}
+
+/* Button */
+.auth-btn {
+  background: #8a57ff;
+  border: none;
+  padding: 0.9rem 0.5rem;
+  border-radius: 12px;
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.75rem;
+  color: white;
+
+  cursor: inherit;
+  letter-spacing: 1px;
+
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.auth-btn:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.2);
+}
+
+/* Register/Login switch */
+.auth-switch {
+  font-size: 0.65rem;
+  opacity: 0.85;
+  margin-top: -0.4rem;
+}
+
+.auth-switch a {
+  color: #d8c4ff;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+.auth-audio {
+  display: none;
+}
+
+
+/* Error message */
+.error-message {
+  font-size: 0.6rem !important;
+  margin-top: -0.4rem;
+}
+
+/* Default cursor */
+body {
+  cursor: url("../assets/cursors/spooky-pointer.png") 0 0, auto;
+}
+
+
+/* Make clickable things inherit the global cursor */
+.tool-btn,
+.grave-slot,
+.btn,
+.auth-btn {
+  cursor: inherit;
+}
+
+
+
+
+
+/* --- TOP BAR AESTHETIC --- */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0.6rem 1.2rem;
+  height: 70px;
+
+  background: radial-gradient(circle at top,
+              #20182f 0%,
+              #0f0b19 55%,
+              #080612 100%);
+
+  border-bottom: 2px solid rgba(180, 150, 255, 0.25);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+
+  position: relative;
+}
+
+
+.top-bar::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(150, 120, 255, 0.28);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+
+
+
+
+
+/* --------------------------------------------------
+   🎚 RETRO COZY SOUND PANEL (Top Bar)
+-------------------------------------------------- */
+.sound-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  margin-left: 0px;
+  padding: 8px 10px;
+
+  background: rgba(30, 30, 45, 0.85);
+  border: 2px solid #6a5acd;
+  border-radius: 10px;
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+
+  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
+
+.sound-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Label styling */
+.sound-label {
+  width: 45px;
+  color: #f0f0f0;
+  text-shadow: 1px 1px #000;
+}
+
+/* Retro sliders */
+.sound-row input[type="range"] {
+  -webkit-appearance: none;
+  width: 80px;
+  height: 6px;
+  background: #2c2c3d;
+  border: 2px solid #444;
+  border-radius: 6px;
+  cursor: inherit;
+}
+
+.sound-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #ffdd88;
+  border: 2px solid #c9a744;
+  border-radius: 2px;
+  box-shadow: 0 0 4px #ffdd88;
+}
+
+.sound-row input[type="range"]:active::-webkit-slider-thumb {
+  background: #ffe8b4;
+}
+
+/* Retro tiny toggle button */
+.top-bar .sound-btn {
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+  padding: 4px 6px;
+
+  background: #202030;
+  color: #fafafa;
+
+  border: 2px solid #555;
+  border-radius: 6px;
+
+  cursor: inherit;
+  text-transform: uppercase;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.7);
+  transition: 0.1s ease;
+}
+
+.sound-btn:hover {
+  background: #2a2a3b;
+}
+
+.top-bar .sound-btn.off {
+  background: #6b2a2a;
+  border-color: #4d1a1a;
+  color: #fff0f0;
+}
+
+
+
+
+/* Pixel title for login/register – versión grande */
+.auth-title-img {
+  width: 90%;               /* mucho más grande */
+  max-width: 430px;         /* tamaño enorme y visible */
+  image-rendering: pixelated;
+  margin: 0 auto 10px auto;
+  display: block;
+
+  /* Glow retro */
+  filter: drop-shadow(0 0 6px #000)
+          drop-shadow(0 0 10px #b07cff)
+          drop-shadow(0 0 16px #8f64ff);
+
+  /* Animación suave */
+  animation: titleGlow 4s ease-in-out infinite alternate;
+}
+
+
+
+
+@keyframes titleGlow {
+  0% {
+    transform: translateY(0);
+    filter: drop-shadow(0 0 6px #000)
+            drop-shadow(0 0 10px #b07cff)
+            drop-shadow(0 0 16px #8f64ff);
+  }
+  100% {
+    transform: translateY(-3px); /* ligera flotación */
+    filter: drop-shadow(0 0 8px #000)
+            drop-shadow(0 0 14px #d8baff)
+            drop-shadow(0 0 22px #e3d0ff);
+  }
+}
+
+
+input,
+textarea {
+  cursor: text;
+}
+
+
+
+
+/* ─────────────────────────────
+   INFO MODAL — layout maco
+───────────────────────────── */
+.info-section {
+  margin-bottom: 1.2rem;
+}
+
+.info-label {
+  font-size: 0.6rem;
+  opacity: 0.7;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+  color: #c8baff;
+}
+
+.info-value {
+  font-size: 0.8rem;
+  color: #f7eaff;
+  text-shadow: 0 0 4px #000;
+}
+
+/* Grid pels stats */
+.info-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.info-grid div {
+  flex: 1;
+}
+
+/* Frase final */
+.info-status {
+  display: block;
+  margin-top: 1.4rem;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 220, 255, 0.08);
+  border-left: 3px solid rgba(210, 150, 255, 0.7);
+  border-radius: 6px;
+  font-style: italic;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #ffe9ff;
+}
+
+
+/* --- Botón logout aesthetic --- */
+.btn-logout {
+  background: rgba(70, 50, 120, 0.85);
+  border: 2px solid rgba(180, 150, 255, 0.4);
+  border-radius: 10px;
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.65rem;
+  color: #f5eaff;
+
+  padding: 0.45rem 1rem;
+
+  box-shadow:
+    0 0 6px rgba(0,0,0,0.5),
+    inset 0 0 4px rgba(150,120,255,0.3);
+
+  transition: 0.15s ease;
+}
+
+.btn-logout:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+/* --- Capa animada suau per damunt del fons --- */
+.top-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: radial-gradient(circle at 60% -20%,
+              rgba(150, 120, 255, 0.08),
+              rgba(0, 0, 0, 0)),
+
+              radial-gradient(circle at 20% 120%,
+              rgba(120, 80, 200, 0.08),
+              rgba(0, 0, 0, 0));
+
+  opacity: 0.6;
+  animation: softAura 14s ease-in-out infinite;
+}
+
+
+@keyframes softAura {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(12px) translateX(-6px);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.55;
+  }
+}
+
+
+
+
+/* ───────────────────────────────
+   CAPA DE PARTÍCULES FLOTANTS
+──────────────────────────────── */
+.top-bar .particles-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.top-bar .particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle,
+              rgba(150, 210, 255, 0.9) 0%,
+              rgba(80, 170, 255, 0.35) 40%,
+              transparent 70%);
+  border-radius: 50%;
+  opacity: 0.75;              /* un poco más suave */
+  animation: floatUp 8s linear infinite;
+}
+
+
+/* Animació suau de les partícules */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+}
+
+
+
+
+
+
+
+/* ================================
+   ADMIN PANEL — Cozy spooky retro
+================================ */
+
+.admin-layout {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.admin-card {
+  background: rgba(18, 18, 28, 0.9);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 2px solid rgba(200, 160, 255, 0.35);
+  width: 680px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.6);
+  font-family: "Press Start 2P", monospace;
+  color: #e6dafc;
+}
+
+.admin-title {
+  text-align: center;
+  margin-bottom: 2.2rem;
+  font-size: 0.9rem;
+}
+
+.admin-users {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 0.3rem;
+}
+
+.admin-user-card {
+  background: rgba(35, 32, 60, 0.9);
+  padding: 1.2rem;
+  border-radius: 14px;
+  border: 1px solid rgba(150, 120, 255, 0.4);
+  box-shadow: 0 0 10px rgba(0,0,0,0.45);
+}
+
+.admin-user-name {
+  margin: 0 0 0.6rem 0;
+  font-size: 0.75rem;
+  color: #ffffff;
+  text-shadow: 0 0 4px rgba(255,255,255,0.3);
+}
+
+.admin-user-role {
+  margin-bottom: 0.8rem;
+  font-size: 0.65rem;
+  color: #d4b8ff;
+}
+
+
+
+
+/* ──────────────────────────────
+   ADMIN PANEL BUTTON (user panel)
+   Retro cozy spooky aesthetic
+────────────────────────────── */
+
+.user-panel .btn-admin-panel {
+  margin-top: 0.8rem;
+
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  background: linear-gradient(
+      135deg,
+      rgba(120, 90, 210, 0.95),
+      rgba(190, 140, 255, 0.95)
+  );
+  border-radius: 12px;
+  border: 2px solid rgba(230, 210, 255, 0.85);
+
+  box-shadow:
+    0 0 8px rgba(0, 0, 0, 0.8),
+    0 0 12px rgba(160, 120, 255, 0.7);
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fdfbff;
+  text-shadow: 0 0 4px #000;
+
+  cursor: inherit;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+.user-panel .btn-admin-panel:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.05);
+  box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.9),
+    0 0 18px rgba(210, 170, 255, 0.9);
+}
+
+/* Estrellita/insignia spooky */
+.btn-admin-panel .admin-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+
+  background: radial-gradient(circle at 30% 30%,
+              #fff8d4,
+              #f5c76b,
+              #9b5cff);
+  border-radius: 4px;
+  border: 2px solid rgba(40, 20, 80, 0.9);
+
+  font-size: 0.5rem;
+  color: #201028;
+  text-shadow: none;
+
+  box-shadow: 0 0 6px rgba(255, 230, 180, 0.9);
+}
+
+/* Texto del botón */
+.btn-admin-panel .admin-text {
+  flex: 1;
+  text-align: center;
+}
+
+
+
+
+
+/* ───────────────────────────────
+   ADMIN TOP BAR — Retro cozy spooky
+─────────────────────────────── */
+
+.admin-top-bar {
+  justify-content: space-between;
+  padding: 0.7rem 1.6rem;
+  height: 76px;
+
+  background: radial-gradient(circle at top,
+              #231831 0%,
+              #120c1f 55%,
+              #070410 100%);
+  border-bottom: 2px solid rgba(210, 180, 255, 0.4);
+  box-shadow:
+    0 0 14px rgba(0, 0, 0, 0.9),
+    0 0 16px rgba(160, 120, 255, 0.55);
+}
+
+/* Wrapper título + chip */
+.admin-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* Chip brillante “eres la jefa” */
+.admin-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+
+  background: radial-gradient(circle at 30% 30%,
+              #fff6c7,
+              #f4bf6a,
+              #8f54ff);
+  border: 2px solid rgba(30, 15, 60, 0.95);
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.55rem;
+  color: #201028;
+  text-shadow: none;
+
+  box-shadow:
+    0 0 6px rgba(255, 235, 190, 0.9),
+    0 0 10px rgba(145, 105, 235, 0.9);
+}
+
+/* Título principal del admin */
+.admin-title {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+
+  color: #fdfbff;
+  text-shadow:
+    0 0 6px #000,
+    0 0 10px rgba(210, 180, 255, 0.8);
+}
+
+/* Botón BACK retro cozy */
+.btn-admin-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+
+  padding: 0.45rem 0.9rem;
+
+  background: linear-gradient(
+      135deg,
+      rgba(60, 45, 100, 0.95),
+      rgba(100, 75, 150, 0.98)
+  );
+  border-radius: 10px;
+  border: 2px solid rgba(200, 170, 255, 0.7);
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #f5ecff;
+
+  box-shadow:
+    0 0 8px rgba(0,0,0,0.7),
+    inset 0 0 4px rgba(10, 5, 25, 0.9);
+
+  cursor: inherit;
+  text-decoration: none;
+
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.14s ease,
+    filter 0.14s ease;
+}
+
+.btn-admin-back:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.08);
+  box-shadow:
+    0 0 10px rgba(0,0,0,0.9),
+    0 0 14px rgba(210, 180, 255, 0.9);
+}
+
+/* Flechita */
+.btn-admin-back .back-arrow {
+  font-size: 0.8rem;
+  margin-top: -1px;
+}
+
+/* Texto del botón */
+.btn-admin-back .back-text {
+  white-space: nowrap;
+}
+
+
+
+/* ───────────────────────────────
+   CONFIRM MODAL — spooky violet
+────────────────────────────── */
+
+.modal-confirm-content {
+  border-color: rgba(255, 150, 180, 0.5);
+  box-shadow:
+    0 0 18px rgba(255, 100, 140, 0.4),
+    0 0 26px rgba(200, 120, 255, 0.4);
+}
+
+.confirm-actions .btn {
+  background: linear-gradient(
+    135deg,
+    rgba(150, 70, 120, 0.95),
+    rgba(200, 100, 160, 0.95)
+  );
+}
+
+.confirm-actions .btn-secondary {
+  background: rgba(60, 40, 80, 0.9);
+}
+
+/* ───────────────────────────────
+   WARNING MODAL — spooky amber
+────────────────────────────── */
+
+.modal-warning-content {
+  border-color: rgba(255, 200, 120, 0.6);
+  box-shadow:
+    0 0 18px rgba(255, 200, 140, 0.3),
+    0 0 26px rgba(255, 180, 110, 0.55);
+}
+
+.modal-warning-content h2 {
+  color: #ffe7c6;
+  text-shadow: 0 0 6px #6b4a00;
+}
+
+.modal-warning-content p {
+  color: #ffefdb;
+}
+
+
+
+
+/* Modal entry animation */
+.modal-content {
+  animation: modalPop 0.25s ease;
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+
+
+
+
+
+/* === Spooky Modal Buttons === */
+#confirm-yes,
+#confirm-no {
+  transition: all 0.15s ease;
+}
+
+#confirm-yes:hover,
+#confirm-no:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 12px rgba(180,140,255,0.8);
+  filter: brightness(1.2);
+}
+
+#confirm-yes {
+  background: #355f3d !important;
+  border: 2px solid #88e7a4 !important;
+}
+
+#confirm-yes:hover {
+  background: #3f754a !important;
+}
+
+#confirm-no {
+  background: #3c2f66 !important;
+  border: 2px solid #a58cff !important;
+}
+
+#confirm-no:hover {
+  background: #46307a !important;
+}
+
+
+
+/* cerrar modal */
+.modal-closing {
+  animation: modalFadeOut 0.22s ease forwards;
+}
+
+@keyframes modalFadeOut {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0; }
+}
+
+
+
+/* === SCROLLBAR — Pixel Spooky === */
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0912;
+  image-rendering: pixelated;
+  border-left: 3px solid #352b56;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b49cff;
+  border: 3px solid #352b56;
+  image-rendering: pixelated;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d3b8ff;
+}
+
+
+
+
+
+/* === LOGOUT BUTTON — Pixel Retro Cozy Spooky === */
+.logout-btn {
+  font-family: "Press Start 2P", monospace;
+  font-size: 12px;
+  padding: 8px 14px;
+  color: #e8dbff;
+  background: #2a2240;
+  border: 3px solid #a98bff;        /* borde pixel spooky */
+  border-radius: 6px;
+
+  box-shadow:
+    0 0 6px rgba(140, 110, 255, 0.4),
+    inset 0 0 8px rgba(50, 30, 80, 0.6);
+
+  cursor: pointer;
+  text-shadow: 0 0 4px #bfa7ff;
+
+  transition: transform 0.12s ease,
+              box-shadow 0.15s ease,
+              filter 0.15s ease;
+}
+
+.logout-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:
+    0 0 10px #cbb6ff,
+    0 0 18px rgba(160,120,255,0.55),
+    inset 0 0 10px rgba(60, 40, 90, 0.8);
+  filter: brightness(1.15);
+}
+
+.logout-btn:active {
+  transform: scale(0.95);
+  box-shadow:
+    0 0 4px #8e6cff,
+    inset 0 0 6px rgba(20,10,40,0.8);
+}
+
+
