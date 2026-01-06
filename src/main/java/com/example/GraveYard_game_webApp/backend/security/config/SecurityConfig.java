@@ -26,27 +26,29 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors(cors -> {})
+                .cors(cors -> {
+                })
                 .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
-                )
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
                         .requestMatchers(
-                                "/",
-                                "/index.html",
-                                "/login.html",
-                                "/register.html",
-                                "/game.html",
+                                "/assets/**",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
                                 "/audio/**"
                         ).permitAll()
+
+                        .requestMatchers(
+                                "/",
+                                "/login.html",
+                                "/register.html",
+                                "/game.html"
+                        ).permitAll()
+
+                        .requestMatchers("/admin.html").permitAll()
 
                         .requestMatchers("/auth/**").permitAll()
 
@@ -60,20 +62,21 @@ public class SecurityConfig {
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                        .requestMatchers("/summons/**").hasAnyRole("USER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/summons/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/summons/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/summons/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/summons/**").hasAnyRole("USER", "ADMIN")
+
+
+                        .requestMatchers("/users/me/stats").authenticated()
 
                         .anyRequest().authenticated()
                 )
 
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
                 .authenticationProvider(authProvider)
-
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-
 }
