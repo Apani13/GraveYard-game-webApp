@@ -3,7 +3,7 @@ package com.example.GraveYard_game_webApp.backend.summon.controller;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonCreateRequest;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonResponse;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonUpdateRequest;
-import com.example.GraveYard_game_webApp.backend.summon.service.SummonService;
+import com.example.GraveYard_game_webApp.backend.summon.service.SummonServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SummonController {
 
-    private final SummonService summonService;
+    private final SummonServiceImpl summonService;
 
     // ------------------------------------------------------------
     // CREATE — iniciar ritual

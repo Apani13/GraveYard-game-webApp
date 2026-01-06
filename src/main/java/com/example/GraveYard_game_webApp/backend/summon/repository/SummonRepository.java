@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface SummonRepository extends JpaRepository<Summon, Long> {
 
-    List<Summon> findByOwnerUsername(String username);
+    List<Summon> findByOwner_Username(String username);
 
-    Optional<Summon> findByIdAndOwnerUsername(Long id, String username);
+    Optional<Summon> findByIdAndOwner_Username(Long id, String username);
 
 }
