@@ -1,7 +1,7 @@
 package com.example.GraveYard_game_webApp.backend.summon.service;
 
-import com.example.GraveYard_game_webApp.backend.exception.SummonNotFoundException;
-import com.example.GraveYard_game_webApp.backend.security.CurrentUserService;
+import com.example.GraveYard_game_webApp.backend.common.exception.SummonNotFoundException;
+import com.example.GraveYard_game_webApp.backend.common.security.CurrentUserService;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonCreateRequest;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonResponse;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonUpdateRequest;

@@ -1,6 +1,6 @@
-package com.example.GraveYard_game_webApp.backend.security;
+package com.example.GraveYard_game_webApp.backend.common.security;
 
-import com.example.GraveYard_game_webApp.backend.exception.UnauthenticatedException;
+import com.example.GraveYard_game_webApp.backend.common.exception.UnauthenticatedException;
 import com.example.GraveYard_game_webApp.backend.user.Role;
 import com.example.GraveYard_game_webApp.backend.user.User;
 import com.example.GraveYard_game_webApp.backend.user.UserRepository;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SpringSecurityCurrentUserService implements CurrentUserService {
+public class CurrentUserServiceImpl implements CurrentUserService {
 
     private final UserRepository userRepository;
 

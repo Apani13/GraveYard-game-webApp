@@ -1,4 +1,4 @@
-package com.example.GraveYard_game_webApp.backend.security;
+package com.example.GraveYard_game_webApp.backend.common.security;
 
 import com.example.GraveYard_game_webApp.backend.user.User;
 
