@@ -1,5 +1,6 @@
 package com.example.GraveYard_game_webApp.backend.summon.service;
 
+import com.example.GraveYard_game_webApp.backend.exception.SummonNotFoundException;
 import com.example.GraveYard_game_webApp.backend.security.CurrentUserService;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonCreateRequest;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonResponse;
@@ -25,13 +26,12 @@ public class SummonServiceImpl implements SummonService {
     private Summon findSummonForCurrentUserOrThrow(Long id) {
         if (currentUserService.isCurrentUserAdmin()) {
             return summonRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Summon with id " + id + " not found"));
+                    .orElseThrow(() -> new SummonNotFoundException(id));
         }
 
         String username = currentUserService.getCurrentUsername();
         return summonRepository.findByIdAndOwner_Username(id, username)
-                .orElseThrow(() -> new RuntimeException(
-                        "Summon with id " + id + " not found for current user"));
+                .orElseThrow(() -> new SummonNotFoundException(id));
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.GraveYard_game_webApp.backend.security;
 
+import com.example.GraveYard_game_webApp.backend.exception.UnauthenticatedException;
 import com.example.GraveYard_game_webApp.backend.user.Role;
 import com.example.GraveYard_game_webApp.backend.user.User;
 import com.example.GraveYard_game_webApp.backend.user.UserRepository;
@@ -17,8 +18,8 @@ public class SpringSecurityCurrentUserService implements CurrentUserService {
     @Override
     public String getCurrentUsername() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated()) {
-            throw new IllegalStateException("No authenticated user found");
+        if (auth == null || !auth.isAuthenticated() || auth.getName() == null) {
+            throw new UnauthenticatedException();
         }
         return auth.getName();
     }
@@ -27,7 +28,7 @@ public class SpringSecurityCurrentUserService implements CurrentUserService {
     public User getCurrentUser() {
         String username = getCurrentUsername();
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalStateException("User not found: " + username));
+                .orElseThrow(UnauthenticatedException::new);
     }
 
     @Override
