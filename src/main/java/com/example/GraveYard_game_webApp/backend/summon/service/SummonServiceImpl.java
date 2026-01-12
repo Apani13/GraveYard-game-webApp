@@ -1,17 +1,14 @@
 package com.example.GraveYard_game_webApp.backend.summon.service;
 
+import com.example.GraveYard_game_webApp.backend.security.CurrentUserService;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonCreateRequest;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonResponse;
 import com.example.GraveYard_game_webApp.backend.summon.dto.SummonUpdateRequest;
 import com.example.GraveYard_game_webApp.backend.summon.model.Summon;
 import com.example.GraveYard_game_webApp.backend.summon.repository.SummonRepository;
-import com.example.GraveYard_game_webApp.backend.user.Role;
 import com.example.GraveYard_game_webApp.backend.user.User;
-import com.example.GraveYard_game_webApp.backend.user.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,34 +19,16 @@ public class SummonServiceImpl implements SummonService {
 
 
     private final SummonRepository summonRepository;
-    private final UserRepository userRepository;
+    private final CurrentUserService currentUserService;
 
-
-    private String getCurrentUsername() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated()) {
-            throw new IllegalStateException("No authenticated user found");
-        }
-        return auth.getName();
-    }
-
-    private User getCurrentUser() {
-        String username = getCurrentUsername();
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalStateException("User not found: " + username));
-    }
-
-    private boolean isCurrentUserAdmin() {
-        return getCurrentUser().getRole() == Role.ADMIN;
-    }
 
     private Summon findSummonForCurrentUserOrThrow(Long id) {
-        if (isCurrentUserAdmin()) {
+        if (currentUserService.isCurrentUserAdmin()) {
             return summonRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Summon with id " + id + " not found"));
         }
 
-        String username = getCurrentUsername();
+        String username = currentUserService.getCurrentUsername();
         return summonRepository.findByIdAndOwner_Username(id, username)
                 .orElseThrow(() -> new RuntimeException(
                         "Summon with id " + id + " not found for current user"));
@@ -58,7 +37,7 @@ public class SummonServiceImpl implements SummonService {
 
     @Transactional
     public SummonResponse createSummon(SummonCreateRequest request) {
-        User owner = getCurrentUser();
+        User owner = currentUserService.getCurrentUser();
 
         Summon summon = toEntity(request);
         summon.setOwner(owner);
@@ -75,11 +54,11 @@ public class SummonServiceImpl implements SummonService {
 
     @Transactional(readOnly = true)
     public List<SummonResponse> getAllSummons() {
-        if (isCurrentUserAdmin()) {
+        if (currentUserService.isCurrentUserAdmin()) {
             return summonRepository.findAll().stream().map(this::toResponse).toList();
         }
 
-        String username = getCurrentUsername();
+        String username = currentUserService.getCurrentUsername();
         return summonRepository.findByOwner_Username(username)
                 .stream()
                 .map(this::toResponse)
@@ -114,10 +93,6 @@ public class SummonServiceImpl implements SummonService {
         Summon updated = summonRepository.save(summon);
         return toResponse(updated);
     }
-
-    // ------------------------------------------------------------
-    // DELETE — Cancel·lar ritual (enterrar de nou)
-    // ------------------------------------------------------------
 
     @Transactional
     public void deleteSummon(Long id) {
